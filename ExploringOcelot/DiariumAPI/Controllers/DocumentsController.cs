@@ -2,9 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
 
     using DiariumAPI.Models;
+    using DiariumAPI.Storage;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -12,36 +12,44 @@
     [ApiController]
     public class DocumentsController : ControllerBase
     {
-        // GET: api/Documents
+        private readonly IRepository<IDocument, Guid> _documentRepository;
+
+        public DocumentsController(IRepository<IDocument, Guid> documentRepository)
+        {
+            _documentRepository = documentRepository;
+        }
+
         [HttpGet]
         public IEnumerable<IDocument> Get()
         {
-            return new Collection<IDocument>();
+            return _documentRepository.Get();
         }
 
-        // GET: api/Documents/5
         [HttpGet("{id}", Name = "Get")]
         public IDocument Get(Guid id)
         {
-            return null;
+            return _documentRepository.Get(id);
         }
 
-        // POST: api/Documents
         [HttpPost]
         public void Post([FromBody] IDocument value)
         {
+            // TODO: Add validation
+            _documentRepository.Add(value);
         }
 
-        // PUT: api/Documents/5
         [HttpPut("{id}")]
         public void Put(Guid id, [FromBody] IDocument value)
         {
+            // TODO: Add validation
+            // TODO: Check if exists
+            _documentRepository.Update(value);
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(Guid id)
         {
+            _documentRepository.Delete(id);
         }
     }
 }

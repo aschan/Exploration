@@ -1,6 +1,6 @@
 ﻿namespace DiariumAPI.Models
 {
-    public interface IDocumentContent
+    public interface IFilter
     {
     }
 }
