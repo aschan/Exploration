@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using DiariumAPI.Models;
-
-namespace DiariumAPI.Controllers
+﻿namespace DiariumAPI.Controllers
 {
+    using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+
+    using DiariumAPI.Models;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +23,7 @@ namespace DiariumAPI.Controllers
         [HttpGet("{id}", Name = "Get")]
         public IDocument Get(Guid id)
         {
-            return (IDocument)null;
+            return null;
         }
 
         // POST: api/Documents
