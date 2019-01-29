@@ -1,8 +1,7 @@
 ﻿namespace DiariumAPI.Models
 {
     using System;
-
-    using DiariumAPI.Entities;
+    using System.Collections.Generic;
 
     public interface IDocumentMetaData : IEntity<Guid>
     {
@@ -13,5 +12,7 @@
         string RegistryNumber { get; set; }
 
         DateTime Registered { get; set; }
+
+        bool Validate(out IEnumerable<string> propertyNames);
     }
 }

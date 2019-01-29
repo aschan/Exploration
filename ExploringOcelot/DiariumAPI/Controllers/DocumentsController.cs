@@ -34,15 +34,37 @@
         [HttpPost]
         public void Post([FromBody] IDocument value)
         {
-            // TODO: Add validation
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (!value.Validate(out var propertyNames))
+            {
+                throw new ArgumentException($"The following properties are invalid: {string.Join(", ", propertyNames)}", nameof(value));
+            }
+
             _documentRepository.Add(value);
         }
 
         [HttpPut("{id}")]
         public void Put(Guid id, [FromBody] IDocument value)
         {
-            // TODO: Add validation
-            // TODO: Check if exists
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (!value.Validate(out var propertyNames))
+            {
+                throw new ArgumentException($"The following properties are invalid: {string.Join(", ",propertyNames)}", nameof(value));
+            }
+            
+            var document =_documentRepository.Get(id);
+            document.Title = value.Title;
+            document.RegistryNumber = value.RegistryNumber;
+            document.Registered = value.Registered;
+            document.Content = value.Content;
             _documentRepository.Update(value);
         }
 
