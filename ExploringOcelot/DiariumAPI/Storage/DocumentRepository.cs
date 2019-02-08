@@ -5,6 +5,8 @@
     
     using DiariumAPI.Models;
 
+    using Framework.Storage;
+
     public class DocumentRepository : IRepository<IDocument, Guid>
     {
         private static readonly IDictionary<Guid, IDocument> _documents = new Dictionary<Guid, IDocument>();

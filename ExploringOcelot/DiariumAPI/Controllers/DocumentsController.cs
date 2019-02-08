@@ -4,7 +4,8 @@
     using System.Collections.Generic;
 
     using DiariumAPI.Models;
-    using DiariumAPI.Storage;
+
+    using Framework.Storage;
 
     using Microsoft.AspNetCore.Mvc;
 

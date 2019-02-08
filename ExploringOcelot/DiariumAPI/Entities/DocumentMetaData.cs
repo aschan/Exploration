@@ -11,6 +11,7 @@
         public virtual string Title { get; set; }
         public virtual string RegistryNumber { get; set; }
         public virtual DateTime Registered { get; set; }
+        public virtual Uri Url { get; set; }
 
         public virtual bool Validate(out IEnumerable<string> propertyNames)
         {

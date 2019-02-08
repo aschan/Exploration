@@ -11,6 +11,8 @@
     using DiariumAPI.Models;
     using DiariumAPI.Storage;
 
+    using Framework.Storage;
+
     using Moq;
 
     using NUnit.Framework;

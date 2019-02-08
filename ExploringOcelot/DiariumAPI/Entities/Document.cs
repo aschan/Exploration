@@ -11,6 +11,7 @@
         public override string Title { get; set; }
         public override string RegistryNumber { get; set; }
         public override DateTime Registered { get; set; }
+        public override Uri Url { get; set; }
         public object Content { get; set; }
 
         public override bool Validate(out IEnumerable<string> propertyNames)

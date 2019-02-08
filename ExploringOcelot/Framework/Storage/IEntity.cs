@@ -1,4 +1,4 @@
-﻿namespace DiariumAPI.Models
+﻿namespace Framework.Storage
 {
     public interface IEntity<out T>
     {

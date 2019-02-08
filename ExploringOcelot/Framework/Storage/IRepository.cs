@@ -1,8 +1,6 @@
-﻿namespace DiariumAPI.Storage
+﻿namespace Framework.Storage
 {
     using System.Collections.Generic;
-
-    using DiariumAPI.Models;
 
     public interface IRepository<T, in TKey> where T : IEntity<TKey>
     {
