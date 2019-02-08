@@ -30,7 +30,21 @@
 
         private Fixture _fixture;
 
-        // Ordered tests because of the persistent storage implementation in the repository
+        // Ordered tests because of the persistent storage implementation in the repository (singleton)
+
+        [Test]
+        [Order(0)]
+        public void GetAllItemsFromEmptyRepository()
+        {
+            // Arrange
+            var repository = new DocumentRepository();
+
+            // Act
+            var documents = repository.Get();
+
+            // Assert
+            Assert.AreEqual(0, documents.Count());
+        }
 
         [Test]
         [Order(1)]
@@ -42,42 +56,11 @@
 
             // Act
             var actual = repository.Add(document);
+            var documents = repository.Get();
 
             // Assert
             Assert.AreEqual(document, actual);
-        }
-
-        [Test]
-        [Order(4)]
-        public void DeleteExistingItem()
-        {
-            // Arrange
-            var repository = new DocumentRepository();
-            var document = repository.Get().First();
-
-            // Act
-            repository.Delete(document);
-            var documents = repository.Get();
-
-            // Assert
-            Assert.AreEqual(0, documents.Count());
-        }
-
-        [Test]
-        [Order(5)]
-        public void DeleteNoneExistingItem()
-        {
-            // Arrange
-            var repository = new DocumentRepository();
-            var originalDocuments = _fixture.CreateMany<IDocument>(9).Select(repository.Add);
-            var document = repository.Get().First();
-
-            // Act
-            repository.Delete(document);
-            var documents = repository.Get();
-
-            // Assert
-            Assert.AreEqual(originalDocuments.Count(), documents.Count());
+            Assert.AreEqual(1, documents.Count());
         }
 
         [Test]
@@ -95,20 +78,6 @@
         }
 
         [Test]
-        [Order(0)]
-        public void GetAllItemsFromEmptyRepository()
-        {
-            // Arrange
-            var repository = new DocumentRepository();
-
-            // Act
-            var documents = repository.Get();
-
-            // Assert
-            Assert.AreEqual(0, documents.Count());
-        }
-
-        [Test]
         [Order(3)]
         public void UpdateExistingItem()
         {
@@ -120,12 +89,51 @@
 
             // Act
             repository.Update(document);
-            var documents = repository.Get();
+            var documents = repository.Get().ToList();
 
             // Assert
-            Assert.AreEqual(1, documents.Count());
+            Assert.AreEqual(1, documents.Count);
             Assert.AreNotEqual(original, document);
             Assert.AreEqual(document, documents.FirstOrDefault());
+        }
+
+        [Test]
+        [Order(4)]
+        public void DeleteNoneExistingItem()
+        {
+            // Arrange
+            var repository = new DocumentRepository();
+            _fixture.CreateMany<IDocument>(9).Select(repository.Add);
+            var originalDocuments = repository.Get().ToList();
+            var document = _fixture.Create<IDocument>();
+
+            // Act
+            repository.Delete(document);
+            var documents = repository.Get().ToList();
+            var found = repository.Get(document.Id);
+
+            // Assert
+            Assert.AreEqual(originalDocuments.Count, documents.Count);
+            Assert.IsNull(found);
+        }
+
+        [Test]
+        [Order(5)]
+        public void DeleteExistingItem()
+        {
+            // Arrange
+            var repository = new DocumentRepository();
+            var originalDocuments = repository.Get().ToList();
+            var document = repository.Get().First();
+
+            // Act
+            repository.Delete(document);
+            var documents = repository.Get().ToList();
+            var found = repository.Get(document.Id);
+
+            // Assert
+            Assert.AreEqual(originalDocuments.Count-1, documents.Count);
+            Assert.IsNull(found);
         }
     }
 }
