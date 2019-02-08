@@ -65,6 +65,7 @@
             document.Title = value.Title;
             document.RegistryNumber = value.RegistryNumber;
             document.Registered = value.Registered;
+            document.Url = value.Url;
             document.Content = value.Content;
             _documentRepository.Update(value);
         }
